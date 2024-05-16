@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+{% block title %}Setting{% endblock %}
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="//cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css">
+<script src="//cdn.datatables.net/2.0.7/js/dataTables.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/b-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
+
+{% endblock %}
+{% block content %}
+
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <!-- <h4 class="card-title">ARY NEWS STATS</h4> -->          
+          <h4 class="font-weight-bold text-center bg-primary text-white py-3">SET YOUTUBE STREAM ID'S</h4>
+          <form action="/setting" method="post" class="forms-sample">
+            <div class="form-group mb-2">
+              <div class="d-flex align-items-center">                
+                <img src="/static/assets/images/logos/ary.png"  width="42px" alt="">
+              </div>
+              <!-- <label>ARY NEWS</label> -->
+              <input type="text" value="{{data['arynewsyt']}}" class="form-control" name="arynewsyt">
+            </div>
+            <div class="form-group mb-2">
+              <div class="d-flex align-items-center ">                
+                <img src="/static/assets/images/logos/geo.png"  width="35px" alt="">
+              </div>
+              <!-- <label>GEO NEWS</label> -->
+              <input type="text" value="{{data['geonewsyt']}}" class="form-control" name="geonewsyt">
+            </div>
+            <div class="form-group mb-2">
+              <div class="d-flex align-items-center ">                
+                <img src="/static/assets/images/logos/samaa.png"  width="50px" alt="">
+              </div>
+              <input type="text" value="{{data['samaanewsyt']}}" class="form-control" name="samaanewsyt">
+            </div>
+            <div class="form-group mb-2">
+              <div class="d-flex align-items-center ">                
+                <img src="/static/assets/images/logos/dunya.png"  width="45px" alt="">
+              </div>
+              <input type="text" value="{{data['dunyanewsyt']}}" class="form-control" name="dunyanewsyt">
+            </div>
+            <div class="form-group mb-2">
+              <div class="d-flex align-items-center ">                
+                <img src="/static/assets/images/logos/express.png"  width="60px" alt="">
+              </div>
+              <input type="text" value="{{data['expressnewsyt']}}" class="form-control" name="expressnewsyt">
+            </div>
+            <div class="form-group mb-2">
+              <div class="d-flex align-items-center ">                
+                <img src="/static/assets/images/logos/hum.png"  width="50px" alt="">
+              </div>
+              <input type="text" value="{{data['humnewsyt']}}" class="form-control" name="humnewsyt">
+            </div>
+            <button type="submit" class="btn btn-primary me-2">Update</button>
+            <a href="/" class="btn btn-light">Cancel</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if updated %}
+  <script>
+    Swal.fire({
+      title: "Success",
+      text: "Stream URLS Updated!",
+      icon: "success"
+    });
+  </script>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,359 @@
+{% extends 'layout.html' %}
+{% block title %}Home{% endblock %}
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+
+
+
+{% endblock %}
+{% block content %}
+<div class="row no-gutters">
+    <div class="col-md-12 col-sm-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h4 class="font-weight-bold text-center bg-primary text-white py-3">Real Time Youtube Data</h4>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/ary.png"
+                                    width="40px"
+                                    height="40px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="yt-arynews">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/geo.png"
+                                    width="32px"
+                                    height="32px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="yt-geonews">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/samaa.png"
+                                    width="48px"
+                                    height="48px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="yt-samaanews">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/dunya.png"
+                                    width="45px"
+                                    height="45px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="yt-dunyanews">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/express.png"
+                                    width="48px"
+                                    height="48px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="yt-expressnews">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/hum.png"
+                                    width="45px"
+                                    height="45px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="yt-humnews">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row ">
+                    <div class="col-md-12">
+                        <canvas id="ytChart" height="50"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h4 class="font-weight-bold text-center bg-primary text-white py-3">Real Time CDN Data</h4>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/ary.png"
+                                    width="48px"
+                                    height="48px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="cdn-arynews">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/ary_digital.png"
+                                    width="48px"
+                                    height="48px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="cdn-arydigital">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/ary_qtv.png"
+                                    width="48px"
+                                    height="48px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="cdn-aryqtv">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/ary_zindagi.png"
+                                    width="48px"
+                                    height="48px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="cdn-aryzindagi">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/ary_music.png"
+                                    width="48px"
+                                    height="48px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="cdn-arymusic">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4  ">
+                        <div class="row d-flex flex-column align-items-center ">
+                            <div class="col justify-content-center align-items-center d-flex" style="min-height: 50px !important; ">
+                                <img
+                                    src="/static/assets/images/logos/nick.png"
+                                    width="48px"
+                                    height="48px"
+                                    alt=""
+                                >
+                            </div>
+                            <div class="col justify-content-center d-flex font-weight-bold">
+                                <h4 class="m-0 py-2"><span id="cdn-nick">...</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="row">
+                    <div class="col-md-12">
+                            <canvas id="cdnChart" height="50"  ></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ytChart = document.getElementById('ytChart');
+    const cdnChart = document.getElementById('cdnChart');
+  </script>
+<script>
+    function fn60sec() {
+    // runs every 60 sec and runs on init.
+    $.ajax({
+        url: 'ytstats-api',
+        success: function(json){
+            // json = JSON.parse(jsondata)
+            $("#yt-arynews").text(json[0]['arynewsyt']);
+            $("#yt-geonews").text(json[1]['geonewsyt']);
+            $("#yt-samaanews").text(json[2]['samaanewsyt']);
+            $("#yt-dunyanews").text(json[3]['dunyanewsyt']);
+            $("#yt-expressnews").text(json[4]['expressnewsyt']);
+            $("#yt-humnews").text(json[5]['humnewsyt']);
+
+            new Chart(ytChart, {
+                type: 'bar',
+                data: {
+                    labels: ['ARY', 'GEO', 'SAMAA', 'DUNYA', 'EXPRESS', 'HUM'],
+                    datasets: [{
+                    label: 'Concurrent Viewers',
+                    data: [json[0]['arynewsyt'], json[1]['geonewsyt'], json[2]['samaanewsyt'], json[3]['dunyanewsyt'], json[4]['expressnewsyt'], json[5]['humnewsyt']],
+                    borderWidth: 1 ,
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                    ]},]
+                },
+                options: {
+                    scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                    }
+                }
+            });
+        },
+        error: function(xhr, status, error){ // Modify the error handler function
+            console.log("An error occurred:", error); // Log the actual error message
+        }
+    });
+    // $.ajax({
+    //     url: 'https://arylive.com/youtube/ytstatslive.php',
+    //     success: function(jsondata){
+    //         json = JSON.parse(jsondata)
+    //         $("#yt-arynews").text(json['YTLiveStreamData']['data']['ARYNEWS']);
+    //         $("#yt-geonews").text(json['YTLiveStreamData']['data']['GEONEWS']);
+    //         $("#yt-samaanews").text(json['YTLiveStreamData']['data']['SAMAANEWS']);
+    //         $("#yt-dunyanews").text(json['YTLiveStreamData']['data']['DUNYANEWS']);
+    //         $("#yt-expressnews").text(json['YTLiveStreamData']['data']['EXPRESSNEWS']);
+    //         $("#yt-humnews").text(json['YTLiveStreamData']['data']['HUMNEWS']);
+    //     },
+    //     error: function(xhr, status, error){ // Modify the error handler function
+    //         console.log("An error occurred:", error); // Log the actual error message
+    //     }
+    // });
+    $.ajax({
+        url: 'https://arylive.com/youtube/cdnstatslive.php',
+        success: function(jsondata){
+            json2 = JSON.parse(jsondata)
+            $("#cdn-arynews").text(json2['CDNLiveStreamData']['data']['ARYNEWS']|| '...');
+            $("#cdn-arydigital").text(json2['CDNLiveStreamData']['data']['ARYDIGITAL']|| '...');
+            $("#cdn-aryqtv").text(json2['CDNLiveStreamData']['data']['ARYQTV']|| '...');
+            $("#cdn-aryzindagi").text(json2['CDNLiveStreamData']['data']['ARYZINDAGI']|| '...');
+            $("#cdn-arymusic").text(json2['CDNLiveStreamData']['data']['ARYMUSIK']|| '...');
+            $("#cdn-nick").text(json2['CDNLiveStreamData']['data']['NICKPAKISTAN']|| '...');
+
+            
+
+            new Chart(cdnChart, {
+                type: 'bar',
+                data: {
+                    labels: ['ARY NEWS', 'ARY DIGITAL', 'ARY QTV', 'ARY ZINDAGI', 'ARY MUSIC', ' NICK PAK'],
+                    datasets: [{
+                    label: 'Concurrent Viewers',
+                    data: [json2['CDNLiveStreamData']['data']['ARYNEWS'], json2['CDNLiveStreamData']['data']['ARYDIGITAL'], json2['CDNLiveStreamData']['data']['ARYQTV'], json2['CDNLiveStreamData']['data']['ARYZINDAGI'], json2['CDNLiveStreamData']['data']['ARYMUSIK'], json2['CDNLiveStreamData']['data']['NICKPAKISTAN']],
+                    borderWidth: 1 ,
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                    ]},]
+                },
+                options: {
+                    scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                    }
+                }
+            });
+        },
+        error: function(xhr, status, error){ // Modify the error handler function
+            console.log("An error occurred:", error); 
+        }
+    });
+    
+}
+fn60sec();
+setInterval(fn60sec, 60*1000);
+</script>
+{% endblock %}

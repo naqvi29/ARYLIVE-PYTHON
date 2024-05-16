@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block title %}Digital{% endblock %}
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="//cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css">
+<script src="//cdn.datatables.net/2.0.7/js/dataTables.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/b-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
+
+{% endblock %}
+{% block content %}
+
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <!-- <h4 class="card-title">ARY NEWS STATS</h4> -->          
+          <h4 class="font-weight-bold text-center bg-primary text-white py-3">ARY ALL CDN STATS{% if not from_date %}<span class="ml-2">(Today)</span>{% endif %}</h4>
+          <form action="/arynews-stats" method="post">
+          <div class="row">            
+            <div class="col-md-6 col-sm-12 justify-content-center">
+              <div class="d-flex justify-content-center">
+                <label for="" class="form-label">From</label>
+              </div>
+              <div class="form-group d-flex mb-0">
+                <input type="date" {% if from_date %} value="{{from_date}}" {% endif %} name="from_date" class="form-control" required>
+                <input type="time" {% if from_time %} value="{{from_time}}" {% endif %} name="from_time" class="form-control">
+              </div>
+              <!-- <div class="form-group">
+              </div> -->
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+              <div class="d-flex justify-content-center">
+                <label for="" class="form-label">To</label>
+              </div>
+              <div class="form-group d-flex mb-0">
+                <input type="date" {% if to_date %} value="{{to_date}}" {% endif %} name="to_date" class="form-control" required>
+                <input type="time" {% if to_time %} value="{{to_time}}" {% endif %} name="to_time" class="form-control">
+              </div>
+              <!-- <div class="form-group">
+              </div> -->
+            </div>
+          </div>
+          <div class="text-center my-2">
+            <button class="btn btn-primary">Apply Date & Time</button>            
+          </div>
+          </form>
+          <div class="table-responsive px-2">
+            <table id="myTable" class="table table-striped display w-100">
+              <thead>
+                <tr>
+                  <th> ID </th>
+                  <th> Date </th>
+                  <th> Time </th>
+                  <th> ARY NEWS </th>
+                  <th> ARY DIGITAL </th>
+                  <th> ARY ZINDAGI </th>
+                  <th> ARY QTV </th>
+                  <th> ARY MUSIC </th>
+                  <th> NICK PAKISTAN </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in results %}
+                <tr>
+                  <td class="py-1">
+                    {{i.id}}
+                  </td>
+                  <td> {{i.date}} </td>
+                  <td>
+                    {{i.time}}
+                  </td>
+                  <td> {{i.arynews}} </td>
+                  <td> {{i.arydigital}} </td>
+                  <td> {{i.aryzindagi}} </td>
+                  <td> {{i.aryqtv}} </td>
+                  <td> {{i.arymusik}} </td>
+                  <td> {{i.nickpakistan}} </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      new DataTable('#myTable', {
+          layout: {
+              topStart: {
+                buttons: [ 'csv', 'excel', 'pdf', 'print' ]
+              }
+          },
+          order: [[0, 'desc']]
+      });
+  </script>
+
+{% endblock %}
