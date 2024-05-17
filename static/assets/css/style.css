@@ -25692,4 +25692,9 @@ table.dataTable tbody td.select-checkbox:after {
     display: none;
   }
 }
+
+
+.dt-center {
+  text-align: left !important;
+}
 /*# sourceMappingURL=maps/style.css.map */

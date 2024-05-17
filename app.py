@@ -111,8 +111,8 @@ def ary_all_cdn_stats():
     else:
         return redirect(url_for('login'))  
 
-@app.route("/all-youtube-stats", methods = ['GET','POST'])
-def all_youtube_stats():
+@app.route("/all-competitor-stats", methods = ['GET','POST'])
+def all_competitor_stats():
     if 'loggedin' in session:
         if request.method == 'POST':
             from_date = request.form.get("from_date")
@@ -130,7 +130,7 @@ def all_youtube_stats():
                     sql_query = f"SELECT * FROM `youtubelive` WHERE date BETWEEN '{from_date}' AND '{to_date}' AND ((date = '{from_date}' AND new_time >= '{from_time}') OR (date = '{to_date}' AND new_time <= '{to_time}'));"
                 cursor.execute(sql_query)
                 results = cursor.fetchall()
-            return render_template("all-youtube-stats.html", results=results, from_date=from_date, from_time=from_time, to_date=to_date, to_time=to_time)
+            return render_template("all-competitor-stats.html", results=results, from_date=from_date, from_time=from_time, to_date=to_date, to_time=to_time)
 
         with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
             today_date = datetime.now().strftime("%Y-%m-%d")
@@ -139,7 +139,7 @@ def all_youtube_stats():
             results = cursor.fetchall()
             
         # Render the template with fetched data
-        return render_template("all-youtube-stats.html", results=results)
+        return render_template("all-competitor-stats.html", results=results)
 
     else:
         return redirect(url_for('login'))  
@@ -218,4 +218,4 @@ def yt_stats_api():
     return jsonify(DATA)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

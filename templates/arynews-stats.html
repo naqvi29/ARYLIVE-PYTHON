@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %}Digital{% endblock %}
+{% block title %}ARY NEWS STATS{% endblock %}
 {% block head %}
 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="//cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css">
@@ -10,6 +10,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/b-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
+
+
 
 {% endblock %}
 {% block content %}
@@ -91,7 +93,14 @@
                 buttons: [ 'csv', 'excel', 'pdf', 'print' ]
               }
           },
-          order: [[0, 'desc']]
+          order: [[0, 'desc']],
+          columns: [
+              { className: 'dt-center' }, 
+              { className: 'dt-center' },  
+              { className: 'dt-center' }, 
+              { className: 'dt-center' }, 
+              { className: 'dt-center' },  
+          ]
       });
   </script>
 

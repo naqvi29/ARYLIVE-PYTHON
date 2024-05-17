@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %}Digital{% endblock %}
+{% block title %}COMPETITORS STATS{% endblock %}
 {% block head %}
 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="//cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css">
@@ -19,8 +19,8 @@
       <div class="card">
         <div class="card-body">
           <!-- <h4 class="card-title">ARY NEWS STATS</h4> -->          
-          <h4 class="font-weight-bold text-center bg-primary text-white py-3">ALL YOUTUBE STATS{% if not from_date %}<span class="ml-2">(Today)</span>{% endif %}</h4>
-          <form action="/arynews-stats" method="post">
+          <h4 class="font-weight-bold text-center bg-primary text-white py-3">ALL COMPETITORS STATS{% if not from_date %}<span class="ml-2">(Today)</span>{% endif %}</h4>
+          <form action="/all-competitor-stats" method="post">
           <div class="row">            
             <div class="col-md-6 col-sm-12 justify-content-center">
               <div class="d-flex justify-content-center">
@@ -98,7 +98,14 @@
                 buttons: [ 'csv', 'excel', 'pdf', 'print' ]
               }
           },
-          order: [[0, 'desc']]
+          order: [[0, 'desc']],
+          columns: [
+              { className: 'dt-center' }, 
+              { className: 'dt-center' },  
+              { className: 'dt-center' }, 
+              { className: 'dt-center' }, 
+              { className: 'dt-center' },  
+          ]
       });
   </script>
 
