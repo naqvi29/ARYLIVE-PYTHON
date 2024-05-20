@@ -129,8 +129,11 @@
                                 id="profileDropdown"
                             >
                                 <!-- <img src="/static/assets/images/faces/face28.jpg" alt="profile"> -->
-                                <img src="/static/assets/images/user.jpg" alt="profile">
+                                <img src="/static/assets/images/user.jpg" alt="profile">                                
+                                {{role | capitalize}} Account
                             </a>
+                            
+                            
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                                 <a href="/setting" class="dropdown-item">
                                     <i class="ti-settings text-primary"></i> Settings
@@ -168,6 +171,7 @@
                                 <span class="menu-title">ARY NEWS STATS</span>
                             </a>
                         </li>
+                        {% if role == 'admin' %}
                         <li class="nav-item">
                             <a class="nav-link" href="/ary-all-cdn-stats">
                                 <i class="icon-bar-graph menu-icon"></i>
@@ -180,6 +184,7 @@
                                 <span class="menu-title">COMPETITORS STATS</span>
                             </a>
                         </li>
+                        {% endif %}
                         <!-- <li class="nav-item">
                             <a
                                 class="nav-link"

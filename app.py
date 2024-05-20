@@ -3,12 +3,10 @@ from flaskext.mysql import MySQL
 import pymysql
 from datetime import datetime
 import requests
-from dotenv import load_dotenv
 import os
 import json
 from flask_caching import Cache
 
-load_dotenv()
 
 app = Flask(__name__)
 mysql = MySQL()
@@ -28,6 +26,10 @@ app.config['MYSQL_DATABASE_PASSWORD'] = '@fF?Bxu!Tn=%pQnP;c'
 app.config['MYSQL_DATABASE_DB'] = 'liveary_ytlive'  
 
 mysql.init_app(app)
+
+@app.context_processor
+def inject_common_variables():
+    return dict(role=session['role'])
 
 def convert_to_12h(time_str):
     # Convert string to datetime object
@@ -81,65 +83,72 @@ def arynews_stats():
 @app.route("/ary-all-cdn-stats", methods = ['GET','POST'])
 def ary_all_cdn_stats():
     if 'loggedin' in session:
-        if request.method == 'POST':
-            from_date = request.form.get("from_date")
-            from_time = request.form.get("from_time")
-            to_date = request.form.get("to_date")
-            to_time = request.form.get("to_time")    
+        if session['role'] == 'admin':
+            if request.method == 'POST':
+                from_date = request.form.get("from_date")
+                from_time = request.form.get("from_time")
+                to_date = request.form.get("to_date")
+                to_time = request.form.get("to_time")    
+                with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
+                    if from_time == to_time and from_date==to_date and from_time:
+                        sql_query = f"SELECT * FROM `cdnstats` WHERE date = '{from_date}' AND new_time = '{from_time}';"
+                    elif from_time and from_date == to_date:
+                        sql_query = f"SELECT * FROM `cdnstats` WHERE new_time BETWEEN '{from_time}' AND '{to_time}' AND (date = '{to_date}');"
+                    elif not from_time and from_date == to_date:
+                        sql_query = f"SELECT * FROM `cdnstats` WHERE date BETWEEN '{from_date}' AND '{to_date}';"
+                    else:
+                        sql_query = f"SELECT * FROM `cdnstats` WHERE date BETWEEN '{from_date}' AND '{to_date}' AND ((date = '{from_date}' AND new_time >= '{from_time}') OR (date = '{to_date}' AND new_time <= '{to_time}'));"
+                    cursor.execute(sql_query)
+                    results = cursor.fetchall()
+                return render_template("ary-all-cdn-stats.html", results=results, from_date=from_date, from_time=from_time, to_date=to_date, to_time=to_time)
+
             with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
-                if from_time == to_time and from_date==to_date and from_time:
-                    sql_query = f"SELECT * FROM `cdnstats` WHERE date = '{from_date}' AND new_time = '{from_time}';"
-                elif from_time and from_date == to_date:
-                    sql_query = f"SELECT * FROM `cdnstats` WHERE new_time BETWEEN '{from_time}' AND '{to_time}' AND (date = '{to_date}');"
-                elif not from_time and from_date == to_date:
-                    sql_query = f"SELECT * FROM `cdnstats` WHERE date BETWEEN '{from_date}' AND '{to_date}';"
-                else:
-                    sql_query = f"SELECT * FROM `cdnstats` WHERE date BETWEEN '{from_date}' AND '{to_date}' AND ((date = '{from_date}' AND new_time >= '{from_time}') OR (date = '{to_date}' AND new_time <= '{to_time}'));"
+                today_date = datetime.now().strftime("%Y-%m-%d")
+                sql_query = f"SELECT * FROM cdnstats WHERE date='{today_date}' ORDER BY ID DESC;"
                 cursor.execute(sql_query)
                 results = cursor.fetchall()
-            return render_template("ary-all-cdn-stats.html", results=results, from_date=from_date, from_time=from_time, to_date=to_date, to_time=to_time)
+                
+            # Render the template with fetched data
+            return render_template("ary-all-cdn-stats.html", results=results)
 
-        with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
-            today_date = datetime.now().strftime("%Y-%m-%d")
-            sql_query = f"SELECT * FROM cdnstats WHERE date='{today_date}' ORDER BY ID DESC;"
-            cursor.execute(sql_query)
-            results = cursor.fetchall()
-            
-        # Render the template with fetched data
-        return render_template("ary-all-cdn-stats.html", results=results)
-
+        else:
+            return render_template("error-405.html") 
     else:
         return redirect(url_for('login'))  
 
 @app.route("/all-competitor-stats", methods = ['GET','POST'])
 def all_competitor_stats():
     if 'loggedin' in session:
-        if request.method == 'POST':
-            from_date = request.form.get("from_date")
-            from_time = request.form.get("from_time")
-            to_date = request.form.get("to_date")
-            to_time = request.form.get("to_time")    
+        if session['role'] == 'admin':
+            if request.method == 'POST':
+                from_date = request.form.get("from_date")
+                from_time = request.form.get("from_time")
+                to_date = request.form.get("to_date")
+                to_time = request.form.get("to_time")    
+                with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
+                    if from_time == to_time and from_date==to_date and from_time:
+                        sql_query = f"SELECT * FROM `youtubelive` WHERE date = '{from_date}' AND new_time = '{from_time}';"
+                    elif from_time and from_date == to_date:
+                        sql_query = f"SELECT * FROM `youtubelive` WHERE new_time BETWEEN '{from_time}' AND '{to_time}' AND (date = '{to_date}');"
+                    elif not from_time and from_date == to_date:
+                        sql_query = f"SELECT * FROM `youtubelive` WHERE date BETWEEN '{from_date}' AND '{to_date}';"
+                    else:
+                        sql_query = f"SELECT * FROM `youtubelive` WHERE date BETWEEN '{from_date}' AND '{to_date}' AND ((date = '{from_date}' AND new_time >= '{from_time}') OR (date = '{to_date}' AND new_time <= '{to_time}'));"
+                    cursor.execute(sql_query)
+                    results = cursor.fetchall()
+                return render_template("all-competitor-stats.html", results=results, from_date=from_date, from_time=from_time, to_date=to_date, to_time=to_time)
+
             with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
-                if from_time == to_time and from_date==to_date and from_time:
-                    sql_query = f"SELECT * FROM `youtubelive` WHERE date = '{from_date}' AND new_time = '{from_time}';"
-                elif from_time and from_date == to_date:
-                    sql_query = f"SELECT * FROM `youtubelive` WHERE new_time BETWEEN '{from_time}' AND '{to_time}' AND (date = '{to_date}');"
-                elif not from_time and from_date == to_date:
-                    sql_query = f"SELECT * FROM `youtubelive` WHERE date BETWEEN '{from_date}' AND '{to_date}';"
-                else:
-                    sql_query = f"SELECT * FROM `youtubelive` WHERE date BETWEEN '{from_date}' AND '{to_date}' AND ((date = '{from_date}' AND new_time >= '{from_time}') OR (date = '{to_date}' AND new_time <= '{to_time}'));"
+                today_date = datetime.now().strftime("%Y-%m-%d")
+                sql_query = f"SELECT * FROM youtubelive WHERE date='{today_date}' ORDER BY ID DESC;"
                 cursor.execute(sql_query)
                 results = cursor.fetchall()
-            return render_template("all-competitor-stats.html", results=results, from_date=from_date, from_time=from_time, to_date=to_date, to_time=to_time)
+                
+            # Render the template with fetched data
+            return render_template("all-competitor-stats.html", results=results)
 
-        with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
-            today_date = datetime.now().strftime("%Y-%m-%d")
-            sql_query = f"SELECT * FROM youtubelive WHERE date='{today_date}' ORDER BY ID DESC;"
-            cursor.execute(sql_query)
-            results = cursor.fetchall()
-            
-        # Render the template with fetched data
-        return render_template("all-competitor-stats.html", results=results)
+        else:
+            return render_template("error-405.html") 
 
     else:
         return redirect(url_for('login'))  
@@ -149,12 +158,23 @@ def login():
     if request.method == 'POST':
         username = request.form.get("username")
         password  = request.form.get("password")
-        if username == os.getenv("USER_NAME") and password == os.getenv("PASSWORD"):
-            session['loggedin'] = True
-            session['name'] = username
-            return redirect(url_for("index"))
-        else:
-            return render_template("login.html",error="Invalid Credentials!")  
+        with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
+            sql_query = f"SELECT * FROM users WHERE username='{username}';"
+            cursor.execute(sql_query)
+            user = cursor.fetchone()
+        if user:
+            if username == user['password']:
+                session['loggedin'] = True
+                session['name'] = user['username']
+                session['role'] = user['role']
+                if user['role'] == 'admin':
+                    return redirect(url_for("index"))
+                elif user['role'] == 'agency':
+                    return redirect(url_for("arynews_stats"))
+            else:
+                return render_template("login.html",error="Invalid Credentials!")  
+        else:            
+            return render_template("login.html",error="Invalid User!") 
               
     return render_template("login.html")
 
