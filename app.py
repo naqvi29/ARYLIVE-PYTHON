@@ -88,6 +88,45 @@ def arynews_stats():
     except Exception as e:
         return render_template('error.html', error=e)
 
+@app.route("/arydigital-stats", methods = ['GET','POST'])
+def arydigital_stats():
+    try:
+        if 'loggedin' in session:
+            if session['role'] == 'agency':
+                if request.method == 'POST':
+                    from_date = request.form.get("from_date")
+                    from_time = request.form.get("from_time")
+                    to_date = request.form.get("to_date")
+                    to_time = request.form.get("to_time")    
+                    with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
+                        if from_time == to_time and from_date==to_date and from_time:
+                            sql_query = f"SELECT * FROM `digitallive` WHERE date = '{from_date}' AND new_time = '{from_time}';"
+                        elif from_time and from_date == to_date:
+                            sql_query = f"SELECT * FROM `digitallive` WHERE new_time BETWEEN '{from_time}' AND '{to_time}' AND (date = '{to_date}');"
+                        elif not from_time and from_date == to_date:
+                            sql_query = f"SELECT * FROM `digitallive` WHERE date BETWEEN '{from_date}' AND '{to_date}';"
+                        else:
+                            sql_query = f"SELECT * FROM `digitallive` WHERE date BETWEEN '{from_date}' AND '{to_date}' AND ((date = '{from_date}' AND new_time >= '{from_time}') OR (date = '{to_date}' AND new_time <= '{to_time}'));"
+                        cursor.execute(sql_query)
+                        results = cursor.fetchall()
+                    return render_template("arydigital-stats.html", results=results, from_date=from_date, from_time=from_time, to_date=to_date, to_time=to_time)
+
+                with mysql.get_db().cursor(pymysql.cursors.DictCursor) as cursor:
+                    today_date = datetime.now().strftime("%Y-%m-%d")
+                    sql_query = f"SELECT * FROM digitallive WHERE date='{today_date}' ORDER BY ID DESC;"
+                    cursor.execute(sql_query)
+                    results = cursor.fetchall()
+                    
+                # Render the template with fetched data
+                return render_template("arydigital-stats.html", results=results)            
+
+            else:
+                return render_template("error-405.html") 
+        else:
+            return redirect(url_for('login'))  
+    except Exception as e:
+        return render_template('error.html', error=e)
+
 @app.route("/ary-all-cdn-stats", methods = ['GET','POST'])
 def ary_all_cdn_stats():
     try:
@@ -248,6 +287,7 @@ def yt_stats_api():
     for key, value in stream_ids.items():
         URL = f"https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id={value}&fields=items%2FliveStreamingDetails%2FconcurrentViewers&key=AIzaSyBKt1-mpNqEiROMiW4g2OT8MjF5DvSyl7U"
         r = requests.get(url = URL)
+        
         data = r.json()
         try:
             concurrentViewers = data['items'][0]['liveStreamingDetails']['concurrentViewers']
